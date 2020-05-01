@@ -1,0 +1,7 @@
+michael:
+  name: Michael Example
+  email: michael@example.com
+  password_digest: <%= User.digest('password') %>
+  
+  #クラスメソッドは、ファクトリーパターン
+  # 新しくデータを０から作る時。何か新しい情報を作る時・加工したいとき。newいらない。
