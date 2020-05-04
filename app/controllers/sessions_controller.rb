@@ -10,7 +10,9 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       # Success
       # session[:user_id] = user.id
-      log_in user
+      log_in user # ログインする
+      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      # remember user # ユーザを永続的に保存(クッキーの中に保存、ユーザIDをいれ、DBのdigestの中に書き込む)
       redirect_to user
     else
       # Failure
@@ -27,7 +29,7 @@ class SessionsController < ApplicationController
   end
   
   def destroy
-    log_out
+    log_out if logged_in?
     redirect_to root_url # root_path でもいいけど、慣習。
   end
   
