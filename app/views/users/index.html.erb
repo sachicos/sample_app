@@ -1,0 +1,11 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= will_paginate %>
+
+<ul class="users">
+  <!-- @users モデルのインスタンスの集合を渡したら、eachで回してくれる(rail) -->
+  <%= render @users %>
+</ul>
+
+<%= will_paginate %>

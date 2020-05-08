@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       log_in user # ログインする
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
       # remember user # ユーザを永続的に保存(クッキーの中に保存、ユーザIDをいれ、DBのdigestの中に書き込む)
-      redirect_to user
+      redirect_back_or user
     else
       # Failure
       #alert-denger 赤色のフラッシュ

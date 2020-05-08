@@ -10,8 +10,10 @@ class User < ApplicationRecord
                       format: { with: VALID_EMAIL_REGEX },
                       uniqueness: true
                       
-  has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  has_secure_password#こっちでもvalidationかかっている！
+  validates :password, presence: true, 
+                       length: { minimum: 6 }, 
+                       allow_nil: true #空だったときパスワード更新しないよ（エラーが２つ出るのを解決）
   
   # 渡された文字列のハッシュ値を返す
   def User.digest(string)
