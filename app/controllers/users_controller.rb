@@ -27,10 +27,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       # ユーザー登録したら、ログインされる
-      log_in @user
-      # Success (valid params)
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      @user.send_activation_email
+      # UserMailer.account_activation(@user).deliver_now
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       # Failure ( not valid params)
       render "new"

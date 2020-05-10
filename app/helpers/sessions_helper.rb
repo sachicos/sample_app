@@ -26,7 +26,7 @@ module SessionsHelper
     elsif (user_id = cookies.signed[:user_id])
       # raise#強制的にエラーを発生させる（テスト網羅性）
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token]) #コネクション切れていたら、クッキーに入っているか
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @current_user = user
       end
