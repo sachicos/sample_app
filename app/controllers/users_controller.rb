@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   def show
     # user  ローカル変数（アクション内のみで使用可能）
     @user = User.find(params[:id]) # インスタンス変数
+    @microposts = @user.microposts.paginate(page: params[:page])
     # @@user グローバル変数（使わない）
   end
   
@@ -72,14 +73,7 @@ class UsersController < ApplicationController
                                  :password_confirmation)
   end
   
-  # ログイン済みユーザーかどうか確認
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "Please log in."
-      redirect_to login_url
-    end
-  end
+  # beforeフィルター
   
  # 正しいユーザーかどうか確認
   def correct_user
