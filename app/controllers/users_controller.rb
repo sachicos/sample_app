@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   #actionの実行前に割り込み処理で実行する
   before_action :logged_in_user,#シンボル(メソッド名は基本シンボル記載)で書かれたメソッド名（logged_in_user）を呼び出してください 
-                 only: [:index, :edit, :update, :destroy]
+                 only: [:index, :edit, :update, :destroy,
+                        :following, :followers]
   before_action :correct_user,   only: [:edit, :update] #current_userが入るのはlogged_in_userのみ(ログインがおこなわれている前提の方が、シンプルなテストを書ける)
   before_action :admin_user,     only: :destroy
   
@@ -62,6 +63,22 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
     redirect_to users_url
+  end
+
+  # GET /users/:id/following
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow'
+  end
+  
+  # GET /users/:id/followers
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
 
   private #　ここから下が意味合いがprivateになる（このファイル内でしか使えない）
